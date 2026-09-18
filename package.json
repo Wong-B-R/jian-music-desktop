@@ -1,0 +1,18 @@
+{
+  "name": "jian-music-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "笺：贴在桌面上的网易云歌词、热评与 DDL 月历",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "koffi": "^2.11.0",
+    "opencc-js": "^1.4.2",
+    "windows-media-sessions": "^1.0.3"
+  },
+  "devDependencies": {
+    "electron": "^35.7.5"
+  }
+}

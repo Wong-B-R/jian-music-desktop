@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>笺</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="stage">
+    <section id="comment" data-hit hidden>
+      <p id="comment-text"></p>
+      <p id="comment-meta"></p>
+      <div id="comment-dots"></div>
+    </section>
+
+    <section id="lyrics" data-hit>
+      <p id="line-prev"></p>
+      <div class="current-row">
+        <p id="line-now">打开网易云，开始播放</p>
+        <button id="lyric-toggle" type="button">原文</button>
+      </div>
+      <p id="line-next"></p>
+      <div id="spectrum" aria-hidden="true"></div>
+    </section>
+
+    <div id="dock">
+    <section id="player" data-hit>
+      <button id="cover-btn" type="button" aria-label="专辑封面">
+        <img id="cover" alt="" />
+        <span id="cover-fallback">笺</span>
+      </button>
+      <div class="transport">
+        <button id="skip-prev" type="button" aria-label="上一首">⏮</button>
+        <button id="play-toggle" type="button" aria-label="播放或暂停">▶</button>
+        <button id="skip-next" type="button" aria-label="下一首">⏭</button>
+        <div class="progress" id="progress"><span id="progress-bar"></span></div>
+      </div>
+      <p id="play-clock"></p>
+      <div class="meta">
+        <h1 id="song-title">尚未播放</h1>
+        <p id="song-artist"></p>
+        <p id="listen-time">今日已听 0 分钟</p>
+      </div>
+    </section>
+
+    <section id="calendar" data-hit>
+      <header>
+        <button id="month-prev" type="button" aria-label="上个月">‹</button>
+        <h2 id="month-label"></h2>
+        <button id="month-next" type="button" aria-label="下个月">›</button>
+      </header>
+      <div class="weekdays">
+        <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+      </div>
+      <div id="month-grid"></div>
+      <ul id="day-list"></ul>
+      <button id="ddl-open" type="button">+ 添加</button>
+      <form id="composer" hidden>
+        <input id="ddl-title" type="text" maxlength="40" placeholder="事项名称" required />
+        <input id="ddl-time" type="datetime-local" required />
+        <div class="composer-actions">
+          <button type="submit">保存</button>
+          <button id="ddl-cancel" type="button">取消</button>
+        </div>
+      </form>
+    </section>
+    </div>
+  </main>
+
+  <nav id="menu" data-hit hidden>
+    <button type="button" data-action="wallpaper">更换壁纸</button>
+    <button type="button" data-action="ambient">封面氛围色</button>
+    <button type="button" data-action="copy">复制当前热评</button>
+    <button type="button" data-action="autostart">开机自启动</button>
+    <button type="button" data-action="quit">退出</button>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
