@@ -125,7 +125,12 @@ function rememberStatus(line) {
 function apply(line) {
   if (!line.startsWith('[') || !line.includes('【playing】')) return;
   if (line.includes('playOneTrackInPlayingList')) rememberTrack(line, true);
-  else if (line.includes('checkPlayPrivilege')) rememberTrack(line, false);
+  else if (line.includes('checkPlayPrivilege')) {
+    // 「添加到下一首播放」也会查这首歌的版权，不能当成已经在播
+    const data = extractJson(line);
+    const id = Number((data?.track || data)?.id || data?.id);
+    if (id && state.id && id === state.id) rememberTrack(line, false);
+  }
   else if (line.includes('setPlayingPosition')) rememberPosition(line);
   else if (line.includes('native播放state')) rememberStatus(line);
 }

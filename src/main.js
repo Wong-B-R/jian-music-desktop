@@ -159,7 +159,7 @@ async function enrich(track) {
       song.cover = await netease.fetchCoverData(song.cover).catch(() => '');
     }
     const [lyrics, comments] = await Promise.all([
-      netease.fetchLyrics(song.id).catch(() => []),
+      netease.fetchLyrics(song.id, song.artist).catch(() => []),
       netease.fetchComments(song.id).catch(() => []),
     ]);
     songCache.lyrics = lyrics;

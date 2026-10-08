@@ -1,6 +1,15 @@
 const OpenCC = require('opencc-js');
 
 const toTaiwan = OpenCC.Converter({ from: 'cn', to: 'tw' });
+const toSimplified = OpenCC.Converter({ from: 'tw', to: 'cn' });
+const SIMPLIFIED_ARTISTS = new Set(['许嵩', '王菲', '窦靖童', '陈粒', '陈婧霏']);
+
+function useSimplified(artist) {
+  return String(artist || '')
+    .split(/[/／、,&]/)
+    .map((name) => name.replace(/[（(].*?[）)]/g, '').trim())
+    .some((name) => SIMPLIFIED_ARTISTS.has(name));
+}
 
 const HEADERS = {
   'User-Agent':
@@ -97,7 +106,7 @@ function parseLrc(raw) {
   return lines;
 }
 
-function mergeLyrics(origin, trans) {
+function mergeLyrics(origin, trans, convert) {
   return origin.map((line) => {
     let translated = '';
     let best = 0.6;
@@ -108,15 +117,16 @@ function mergeLyrics(origin, trans) {
         translated = item.text;
       }
     }
-    return { t: line.t, text: toTaiwan(line.text), trans: translated ? toTaiwan(translated) : '' };
+    return { t: line.t, text: convert(line.text), trans: translated ? convert(translated) : '' };
   });
 }
 
-async function fetchLyrics(id) {
+async function fetchLyrics(id, artist) {
   const data = await getJson(`https://music.163.com/api/song/lyric?id=${id}&lv=1&kv=1&tv=1`);
   const origin = parseLrc(data?.lrc?.lyric);
   const trans = parseLrc(data?.tlyric?.lyric);
-  return mergeLyrics(origin, trans);
+  const convert = useSimplified(artist) ? toSimplified : toTaiwan;
+  return mergeLyrics(origin, trans, convert);
 }
 
 async function fetchComments(id) {
